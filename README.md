@@ -26,10 +26,7 @@ Enter the code shown on the transmitter, press `#`, the case opens and a fresh c
 generated. Walk out of radio range and the keypad goes dead: the OLED tells you to use the
 fingerprint sensor instead, which only works once you have turned a physical key.
 
-This repository is **not** a build guide for a secure product. It is a record of what a
-student built with the knowledge available at the time, what actually worked, what did not,
-and what I now know was wrong. Where the original school report made a claim that the
-evidence does not support, this repository says so.
+This repository is **not** a build guide for a secure product. It is a record of what I built with the knowledge available at the time, what actually worked, what did not.
 
 > [!WARNING]
 > **Do not use this to secure anything.** The unlock code is transmitted in clear text on a
@@ -68,6 +65,18 @@ deserves the credit for the spark. It used an NRF24-based link and a
 large LiPo pack of the kind used in airsoft replicas. My implementation went a different way
 almost immediately: ESP32s instead of an arduino nano, EBYTE LoRa modules instead of NRF24, plus
 biometric authentication and a custom PCB.
+
+**What I was actually imagining**
+
+The honest answer to "why a briefcase" is that I was picturing something out of a spy film: a courier case carrying documents that must not be read,
+which opens only for the right person, reports back the moment it is opened, and whose code changes every single time so that yesterday's code is worth nothing. 
+An agency handler at one end, a courier at the other, and a radio link between them.
+
+Nobody needed this. There were no classified documents. But that image is the reason every design decision felt obvious at the time — of course the code has to roll, 
+of course the case has to report the moment it opens, of course there has to be a fallback for when the link is gone, of course there is a key.
+
+I mention it because the fiction did real work. A vague brief — "build something with a microcontroller" — gets you a demo. 
+A specific imagined scenario gives you requirements, and requirements are what let you tell a finished feature from an unfinished one.
 
 ---
 
@@ -285,26 +294,29 @@ returns anything. It is a genuine second factor, and it is entirely mechanical.
 
 ### Security, honestly
 
-This is a demonstrator. It is worth being explicit about why it is not a security product:
+This is just an high school project. It is **NOT** a secure device and here's why:
 
-1. **The code space is 10⁵ and there is no attempt limit, no delay and no lockout.** At roughly
+1. **The code space is 10⁵ (Clearly not a huge problem) and there is no attempt limit, no delay and no lockout.** At roughly
    one attempt per second that is about 28 hours worst case, 14 on average.
 2. **The code travels in clear text.** The E32 modules run in transparent mode on address
    `0x0000` and channel 23 — all factory defaults. Anyone within range with an unconfigured
    E32 receives it.
 3. **The code is displayed permanently on an LCD** on the outside of the transmitter box.
-4. **The attacker picks which path to attack, and can force the fallback.** The two paths are
+   But It suppose to be held somewhere secure like your house or in a gov building.
+5. **The attacker picks which path to attack, and can force the fallback.** The two paths are
    not equally strong, and losing the link is trivial to cause — walk away with the case, or
    jam the channel. Whichever path is weaker is the system's real strength. The fallback path
    is not weak in itself: it needs a registered finger *and* the physical key, which is two
    factors. The keypad path needs one thing: the code, which is displayed on an LCD and
    broadcast in clear. **The keypad path is the weak one**, which is the opposite of what I
    assumed while building it.
-5. `random()` on arduino-esp32 is backed by `esp_random()` rather than the AVR seeded PRNG,
+6. `random()` on arduino-esp32 is backed by `esp_random()` rather than the AVR seeded PRNG,
    but ESP-IDF states that its output is only truly random when the RF subsystem (Wi-Fi or
    Bluetooth) is active or the ADC entropy source is enabled. Neither is the case here, so
    the output "should be considered as pseudo-random only".
-6. A solenoid inside a thin aluminium case means physical security dominates anyway.
+7. A solenoid inside a thin aluminium case means physical security dominates anyway.
+
+   But keep in mind, this isn't a major issue, just a project, I just wanted to let you know what you can do better with it.
 
 ---
 
@@ -439,8 +451,7 @@ stopped at roughly 400 m.**
 ```
 FSPL(433 MHz, 1 km) = 20·log₁₀(1) + 20·log₁₀(433) + 32.44 ≈ 85.2 dB
 P_rx ≈ 30 dBm + ~2 dBi + ~2 dBi − 85.2 dB ≈ −51 dBm
-sensitivity at 2.4 kbps ≈ −140 dBm (estimated — the datasheet's
-                                     −147 dBm figure is for 0.3 kbps)
+sensitivity at 2.4 kbps ≈ −140 dBm (estimated — the datasheet's −147 dBm figure is for 0.3 kbps)
 margin ≈ 89 dB
 ```
 
@@ -724,35 +735,7 @@ first buzzer, making it awkward to plug in a cable to reprogram the board.
 
 ## Known Issues and Limitations
 
-Full list, with reasoning, in [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md). Summary:
-
-| Issue | Class |
-|---|---|
-| No framing or validation on the radio/serial link; permanent desync possible | Confirmed issue |
-| `String` inside a memcpy'd struct; works only thanks to small-string optimisation | Confirmed issue |
-| No ACK, retry, sequence number or application CRC | Confirmed issue |
-| Return values of `SendStruct` / `GetStruct` never checked | Confirmed issue |
-| Hard-coded initial password `"1234"` | Confirmed issue |
-| Unlock code sent in clear on default address and channel | Confirmed issue |
-| No attempt limit, delay or lockout | Confirmed issue |
-| Report says 450 MHz; the modules ran on 433.0 MHz | Confirmed issue |
-| Report quotes −148 dBm sensitivity out of context | Confirmed issue |
-| Report presents a single unrepeated walk test as a characterisation of range | Confirmed issue |
-| Lock fed from an 18 V drill pack, roughly double the solenoid's working voltage | Historical workaround |
-| LM7805 cannot supply the lock's 1.7 A | Confirmed issue |
-| 9 V zinc-carbon battery cannot supply 300 mA continuous or 610 mA bursts | Confirmed issue |
-| Base drive insufficient: β of ~1130 required against 750 guaranteed | Confirmed issue |
-| GPIO12 (a strapping pin) used as a keypad column — boot hazard | Confirmed issue |
-| GPIO19 drives both the lock and an inter-MCU signal | Confirmed issue |
-| The second ESP32 was avoidable; ESP32 UART pins are remappable | Confirmed issue |
-| Blocking `delay()` calls in critical paths | Confirmed issue |
-| Node-RED / MQTT described in the report but absent from all firmware | Confirmed issue |
-| 1 W at 433 MHz exceeds the 10 mW ERP limit for licence-free use in Europe | Confirmed issue |
-| LED + photoresistor lock driver | Historical workaround |
-| 0 Ω base resistor | Historical workaround |
-| Link dropping permanently rather than degrading: stream desync and/or TX brownout | Suspected issue |
-| Fingerprint sensor "bound" to one ESP32 | Needs further investigation |
-| Actual current draw (300 mA / 150 mA are recollections; the hardware has since been dismantled) | Needs further investigation |
+Full list, with reasoning, in [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md). 
 
 ### On the fingerprint sensor "binding itself" to one ESP32
 
