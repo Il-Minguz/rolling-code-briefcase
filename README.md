@@ -766,26 +766,6 @@ The honest answer is that this needs a bench test to resolve, not a memory.
 
 Reasoning and part-selection detail in [`docs/REDESIGN.md`](docs/REDESIGN.md).
 
-| Original design | Problem | How I would redesign it today |
-|---|---|---|
-| 9 V zinc-carbon battery | Cannot source 300 mA continuous or 610 mA bursts; capacity collapses under load | 1S Li-ion 18650 (9–13 Wh) with protection, plus a bulk capacitor across the radio's supply |
-| LM7805 linear regulator | 44 % of energy wasted as heat; 1.5 A ceiling; thermal shutdown | Synchronous buck to 5 V (e.g. MP1584/TPS5430 class) and a separate 3.3 V LDO for the analogue-adjacent parts |
-| Shared supply for logic and lock | 1.7 A lock transients on the logic rail | Separate lock supply with its own switch, single-point common ground, bulk capacitance at the solenoid |
-| BDX53C Darlington on a 3.3 V GPIO | Two stacked Vbe drops eat the 3.3 V rail; β of 1130 needed against 750 guaranteed | Logic-level N-channel MOSFET with **Rds(on) specified at Vgs = 2.5–3.0 V**, 100 Ω gate resistor, 100 kΩ pulldown |
-| LED + photoresistor coupler | Slow, unspecified, ambient-light sensitive, not real isolation | A real optocoupler (PC817 / TLP291) if isolation is wanted, or direct MOSFET drive if it is not |
-| Integrated freewheel diode only | Fine on the BDX53C, absent on a MOSFET | Explicit Schottky flyback diode across the solenoid, rated ≥ 2× the supply and ≥ 2× the current |
-| Raw C structs with an Arduino `String` | Undefined behaviour hidden by SSO; no portability guarantee | Explicit packed byte protocol: magic, version, message type, sequence number, length, payload, CRC-16 |
-| No ACK, retry or timeout | One lost packet silently desynchronises the system state | ACK with sequence numbers, exponential backoff, bounded retries, explicit link-state machine |
-| `if (available()) readBytes(24)` | Short reads desynchronise the stream permanently | Byte-oriented state machine with a start delimiter and length field; resynchronise on CRC failure |
-| Rolling code sent in clear | Anyone with a default-configured E32 can read it | Challenge–response with a pre-shared key (HMAC over a nonce); never transmit the secret |
-| No attempt limiting | 10⁵ codes brute-forceable overnight | Exponential backoff after failures, hard lockout, log attempts |
-| Always-on ESP32s | Hundreds of mA at idle for a device that is used for seconds a day | Deep sleep with `ext1` wake on a keypad row; power the radio and sensor through load switches |
-| Second ESP32 for one UART | Unnecessary board area, cost and inter-MCU signalling | One ESP32 with `Serial1` remapped to free GPIOs |
-| GPIO12 as a keypad column | Strapping pin; can prevent boot | Move to a non-strapping GPIO (e.g. 32, 33, 27, 26) |
-| GPIO19 shared between lock and UI | Actuator coupled to a UI signal | Separate pins; better still, one MCU and no signalling at all |
-| 1 W at 433.0 MHz | Illegal for licence-free use in the EU and sitting on the busiest channel | 10 mW ERP or less, on a quieter channel; or 868 MHz with proper duty-cycle discipline |
-| Estimated power figures | Never measured | INA219/INA226 shunt monitor, or a USB power meter, and design the battery from the measured average |
-
 ### On "just use a logic-level MOSFET"
 
 That phrase is not enough advice to act on, so, concretely, for switching 1.7 A from a 3.3 V
