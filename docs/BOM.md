@@ -47,7 +47,7 @@ deliberately not guessed.
 | 1 | 433 MHz quarter-wave SMA antenna | Mounted through the wall of the box |
 | 1 | LCD **1602** + PCF8574 I²C backpack (QAPASS), address `0x27` | |
 | 1 | Red indicator LED | Panel-mounted in the lid |
-| 1 | **LM7805CT** regulator + heatsink | On a small piece of perfboard |
+| 1 | **LM7805CT** regulator + heatsink + thermal paste | On a small piece of perfboard |
 | 2 | 10 µF electrolytic capacitor | |
 | 2 | 100 nF ceramic capacitor | |
 | 1 | 9 V 6F22 battery + clip | **VARTA Super Heavy Duty** — zinc-carbon |
