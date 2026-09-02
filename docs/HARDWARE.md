@@ -59,13 +59,8 @@ The A/B to U2/U3 assignment is inferred from board pin counts in the PCB photogr
 ### Why board B is an ESP32, not an Arduino Micro
 
 `valigia_definitivo.ino` contains the comment *"se leggo che dall'arduino micro sono state
-rilevate delle impronte giuste"*. This is a leftover from an earlier revision. The evidence
-that board B is an ESP32:
-
-- `impronte_definitivo.ino` uses `Serial2`; the Arduino Micro only has `Serial1`.
-- It uses GPIO 25, 27 and 33, which do not exist on a Micro.
-- The report's block diagram annotates the fingerprint sensor with *"dal secondo esp32: 16,17"*.
-- The photograph of the finished PCB shows two ESP32-WROOM modules.
+rilevate delle impronte giuste"* which means "if i read from the arduino that there are some good fingerprints...".
+This is a leftover from an earlier revision.
 
 The report states the Micro was used only for the initial standalone testing of the sensor.
 
@@ -144,7 +139,8 @@ Rows    (pin_righe[4]):   R1→GPIO33   R2→GPIO25   R3→GPIO26   R4→GPIO27
 Columns (pin_colonne[3]): C1→GPIO14   C2→GPIO12   C3→GPIO13
 ```
 
-**Important caveat.** This is the combination that produced correct key readings *with the
+**Important!!!.** 
+This is the combination that produced correct key readings *with the
 harness as it was physically wired*. The wires leaving the keypad were reordered before they
 reached the ESP32, so these arrays do not tell you which physical pin on the keypad connector
 is "row 1". Working that out empirically is what made this part of the build so frustrating in
@@ -185,12 +181,11 @@ The module has an RGB ring used as status:
 ### The key switch
 
 The sensor is powered through a barrel key switch mounted in the case. The firmware has **no
-knowledge of the key at all** — verified: neither sketch declares or reads a key pin. The
-switch is wired in series with the R557's supply, so with the key out the module is simply
-unpowered and `getImage()` never succeeds. In the demonstration video the sensor's ring is dark
-until the key is turned, then lights green.
+knowledge of the key at all** The switch is wired in series with the R557's supply,
+so with the key out the module is simply unpowered and `getImage()` never succeeds. 
+In the demonstration video the sensor's ring is dark until the key is turned, then lights green.
 
-This is, arguably, the most genuinely secure element in the whole design, and it is entirely
+This is (maybe) the most genuinely secure element in the whole design, and it is entirely
 mechanical.
 
 ### Templates and the "binding" question
@@ -204,25 +199,10 @@ Arduino Micro tests.
 **Enrolment is not in any surviving file.** `impronte_definitivo.ino` only calls `getImage()`,
 `image2Tz()` and `fingerSearch()` — it can match a finger but never register one. It does,
 however, still print `"Adafruit Fingerprint sensor enrollment"` at startup, which is a leftover
-from Adafruit's `enroll` example. That is the strongest available evidence for how the
-templates were originally registered: with the stock Adafruit example, run once from a separate
-sketch that no longer survives.
-
+from Adafruit's `enroll` example. You have o enroll your finger with the code provided by the library for this model.
 ---
 
 ## 7. ESP32 pin hazards present in this design
-
-None of these are known to have caused a failure in 2024, but all three are real and worth
-flagging for anyone reading the schematic:
-
-**GPIO12 as a keypad column.** GPIO12 is the MTDI strapping pin. If it is held high at reset,
-the ESP32 configures the flash for 1.8 V and fails to boot. The `Keypad` library holds the
-columns as `OUTPUT LOW` while scanning, but at the instant of reset the pin is still an input.
-A key held down in column 2 during power-up, with the corresponding row driven high, can
-prevent boot.
-
-**GPIO2 as the "wrong code" output.** Also a strapping pin, and on most devkits it is tied to
-the onboard LED. Using it as an output after boot is fine, but it adds a load during boot.
 
 **GPIO34 as the fingerprint-match input.** GPIO 34–39 are input-only and have **no internal
 pull-up or pull-down**. The line floats while board B is in reset or unpowered, so the state
