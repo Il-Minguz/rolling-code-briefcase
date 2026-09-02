@@ -1,0 +1,285 @@
+{
+  "board_split_type": -1,
+  "color_sm": "ºÚ",
+  "color_ss": "°×É«",
+  "cu_inner": 0.0,
+  "cu_outer": 1.0,
+  "dir_input": "D:\\JlcAutoCam\\input\\5803346a_y2_22032_1715991622841\\data\\erp\\PCB_Gerber\\GERBER\\2024-05-18\\GBR_7031061_1",
+  "dir_output": "D:\\JlcAutoCam\\output\\5803346A_Y2\\5803346A_Y2",
+  "eda_type": "EASYEDA",
+  "file_output": "",
+  "file_type": "gerber",
+  "files": [
+    {
+      "file": "Gerber_TopSolderMaskLayer.GTS",
+      "format": {
+        "coordinates": "absolute",
+        "decimal": "no",
+        "nf1": 4,
+        "nf2": 5,
+        "tool_units": "mm",
+        "type": "Gerber274x",
+        "units": "mm",
+        "zeroes": "leading"
+      },
+      "layer": "ts",
+      "offset": {
+        "mi": 0,
+        "mi_x": 0.0,
+        "mi_y": 0.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "negative_info": {
+        "is_neg": 0
+      }
+    },
+    {
+      "file": "Gerber_TopSilkscreenLayer.GTO",
+      "format": {
+        "coordinates": "absolute",
+        "decimal": "no",
+        "nf1": 4,
+        "nf2": 5,
+        "tool_units": "mm",
+        "type": "Gerber274x",
+        "units": "mm",
+        "zeroes": "leading"
+      },
+      "layer": "to",
+      "offset": {
+        "mi": 0,
+        "mi_x": 0.0,
+        "mi_y": 0.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "negative_info": {
+        "is_neg": 0
+      }
+    },
+    {
+      "file": "Gerber_TopLayer.GTL",
+      "format": {
+        "coordinates": "absolute",
+        "decimal": "no",
+        "nf1": 4,
+        "nf2": 5,
+        "tool_units": "mm",
+        "type": "Gerber274x",
+        "units": "mm",
+        "zeroes": "leading"
+      },
+      "layer": "tl",
+      "offset": {
+        "mi": 0,
+        "mi_x": 0.0,
+        "mi_y": 0.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "negative_info": {
+        "is_neg": 0
+      }
+    },
+    {
+      "file": "Gerber_DocumentLayer.GDL",
+      "format": {
+        "coordinates": "absolute",
+        "decimal": "no",
+        "nf1": 4,
+        "nf2": 5,
+        "tool_units": "mm",
+        "type": "Gerber274x",
+        "units": "mm",
+        "zeroes": "leading"
+      },
+      "layer": "misc3",
+      "offset": {
+        "mi": 0,
+        "mi_x": 0.0,
+        "mi_y": 0.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "negative_info": {
+        "is_neg": 0
+      }
+    },
+    {
+      "file": "Gerber_BottomSolderMaskLayer.GBS",
+      "format": {
+        "coordinates": "absolute",
+        "decimal": "no",
+        "nf1": 4,
+        "nf2": 5,
+        "tool_units": "mm",
+        "type": "Gerber274x",
+        "units": "mm",
+        "zeroes": "leading"
+      },
+      "layer": "bs",
+      "offset": {
+        "mi": 0,
+        "mi_x": 0.0,
+        "mi_y": 0.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "negative_info": {
+        "is_neg": 0
+      }
+    },
+    {
+      "file": "Gerber_BottomSilkscreenLayer.GBO",
+      "format": {
+        "coordinates": "absolute",
+        "decimal": "no",
+        "nf1": 4,
+        "nf2": 5,
+        "tool_units": "mm",
+        "type": "Gerber274x",
+        "units": "mm",
+        "zeroes": "leading"
+      },
+      "layer": "bo",
+      "offset": {
+        "mi": 0,
+        "mi_x": 0.0,
+        "mi_y": 0.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "negative_info": {
+        "is_neg": 0
+      }
+    },
+    {
+      "file": "Gerber_BottomLayer.GBL",
+      "format": {
+        "coordinates": "absolute",
+        "decimal": "no",
+        "nf1": 4,
+        "nf2": 5,
+        "tool_units": "mm",
+        "type": "Gerber274x",
+        "units": "mm",
+        "zeroes": "leading"
+      },
+      "layer": "bl",
+      "offset": {
+        "mi": 0,
+        "mi_x": 0.0,
+        "mi_y": 0.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "negative_info": {
+        "is_neg": 0
+      }
+    },
+    {
+      "file": "Gerber_BoardOutlineLayer.GKO",
+      "format": {
+        "coordinates": "absolute",
+        "decimal": "no",
+        "nf1": 4,
+        "nf2": 5,
+        "tool_units": "mm",
+        "type": "Gerber274x",
+        "units": "mm",
+        "zeroes": "leading"
+      },
+      "layer": "ko",
+      "offset": {
+        "mi": 0,
+        "mi_x": 0.0,
+        "mi_y": 0.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "negative_info": {
+        "is_neg": 0
+      }
+    },
+    {
+      "file": "Drill_PTH_Through.DRL",
+      "format": {
+        "coordinates": "absolute",
+        "decimal": "no",
+        "nf1": 3,
+        "nf2": 3,
+        "tool_units": "mm",
+        "type": "Excellon2",
+        "units": "mm",
+        "zeroes": "trailing"
+      },
+      "layer": "drl",
+      "offset": {
+        "mi": 0,
+        "mi_x": 0.0,
+        "mi_y": 0.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "negative_info": {
+        "is_neg": 0
+      }
+    },
+    {
+      "file": "Drill_PTH_Through_Via.DRL",
+      "format": {
+        "coordinates": "absolute",
+        "decimal": "no",
+        "nf1": 3,
+        "nf2": 3,
+        "tool_units": "mm",
+        "type": "Excellon2",
+        "units": "mm",
+        "zeroes": "trailing"
+      },
+      "layer": "via",
+      "offset": {
+        "mi": 0,
+        "mi_x": 0.0,
+        "mi_y": 0.0,
+        "x": 0.0,
+        "y": 0.0
+      },
+      "negative_info": {
+        "is_neg": 0
+      }
+    }
+  ],
+  "finished": "ÓÐÇ¦ÅçÎý",
+  "gold_finger_bevel": 0,
+  "is_octagonal_pad": 2,
+  "is_smt": false,
+  "is_standard_smt": false,
+  "layers": 2,
+  "make_set_pcs_sizex": 9.41,
+  "make_set_pcs_sizey": 7.6,
+  "make_set_count_x": 0,
+  "make_set_count_y": 0,
+  "make_set_edge_size": 0.0,
+  "make_set_edge_is_long": -1,
+  "make_set_space_x": 0.0,
+  "make_set_space_y": 0.0,
+  "qr_code_flag": 0,
+  "qr_code_size": 0,
+  "qr_code_position": 0,
+  "trace_code_print_type": 0,
+  "real_qr_code_size": 0,
+  "make_set_type": 0,
+  "plate_type": "FR4",
+  "po": "5803346A_Y2",
+  "po_id": 52542878,
+  "print_customer_code": 1,
+  "print_date_info": 0,
+  "profile_layer": "gko",
+  "profile_type": 1,
+  "size_x": 9.41,
+  "size_y": 7.6,
+  "thickness": 1.6,
+  "via": "¹ý¿×¸ÇÓÍ"
+}
