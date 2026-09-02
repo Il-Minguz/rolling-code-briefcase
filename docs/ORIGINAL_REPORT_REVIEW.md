@@ -1,4 +1,4 @@
-# A critical review of the original school report
+# A critical review of the original school report (and made entirely by AI (i'm lazy))
 
 The 2024 report is preserved unedited in [`original-report/`](original-report/). It is in
 Italian, 33 pages long, and it was written by a student with a deadline.
