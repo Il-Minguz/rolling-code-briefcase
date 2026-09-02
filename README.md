@@ -766,33 +766,10 @@ The honest answer is that this needs a bench test to resolve, not a memory.
 
 Reasoning and part-selection detail in [`docs/REDESIGN.md`](docs/REDESIGN.md).
 
-### On "just use a logic-level MOSFET"
-
-That phrase is not enough advice to act on, so, concretely, for switching 1.7 A from a 3.3 V
-GPIO:
-
-- **Vgs(th) is not the turn-on voltage.** It is the gate voltage at which the device conducts
-  roughly 250 µA — essentially "barely off". Selecting on Vgs(th) is the classic mistake.
-- **What matters is the Rds(on) figure specified at Vgs = 2.5 V or 3.0 V.** If a datasheet
-  only quotes Rds(on) at Vgs = 10 V or 4.5 V, that part is not intended for 3.3 V drive.
-- **Target the dissipation.** At 1.7 A, an Rds(on) of 50 mΩ gives I²R = 1.7² × 0.05 ≈ 0.14 W —
-  no heatsink needed. Compare with roughly 2.5 W in the Darlington.
-- **Gate drive.** Solenoid switching speed is irrelevant, so gate charge is not a constraint;
-  a 100 Ω series gate resistor limits the ESP32's inrush, and a 100 kΩ pulldown keeps the lock
-  off while the GPIO is high-impedance during reset and boot.
-- **You still need a flyback diode.** The BDX53C had one built in. A MOSFET's body diode is in
-  the wrong orientation for a low-side switch, so add an external Schottky across the solenoid.
-- Parts commonly used for 3.3 V gate drive at this current include AO3400-class SOT-23 devices
-  and IRLB8721-class TO-220 devices — but **check the Rds(on)-at-2.5 V column on the datasheet
-  of the part you actually buy**, not on a forum recommendation.
-
 ---
 
 ## Lessons Learned
 
-- **One unrepeated measurement is not a result.** I ran a single walk through town, wrote the
-  numbers into a table, and then quoted "about a kilometre" next to it. Neither the table nor
-  the conclusion deserved the confidence they were given.
 - **Pay attention to the shape of a failure, not just the fact of it.** A link that degrades is
   a radio problem. A link that drops and stays dropped is a software problem. I spent two years
   assuming the first because I never asked which one I was actually seeing.
@@ -800,15 +777,12 @@ GPIO:
   document that was defended in front of an examination board.
 - **Datasheet numbers come with test conditions.** −148 dBm is real, at 0.3 kbps. Quoting it
   next to a 2.4 kbps configuration is quoting a different device.
-- **A 5 % loss at 50 metres is a clue, not noise.** When a curve does not have the shape the
-  physics predicts, the cause is usually not the physics.
 - **"It works" and "it is correct" are different claims.** The `String`-in-a-struct bug worked
   for two years because of an optimisation I did not know existed.
 - **Debug the drive before the supply.** Base drive fails into a dummy load; supply problems
   need the real one. I spent a long time on the wrong half.
 - **When a hack works, find out why.** The LED and photoresistor were never the fix — the 18 V
-  supply behind them was. I shipped it without knowing that, which means I could not have
-  reproduced it deliberately.
+  supply behind them was.
 - **Batteries have a power rating, not just a capacity.** This is the single most useful thing
   I took away from the whole project.
 - **A workaround you can explain is worth keeping.** The LED and photoresistor got the project
