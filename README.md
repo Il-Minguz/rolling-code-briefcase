@@ -6,7 +6,7 @@ with a fingerprint when the radio link goes down. Built as a final high-school p
 
 ---
 
-## Overview
+## Overview - Work it harder 👷🏻‍♂️
 
 This was one of my final high-school projects. Looking back at it today there are several
 things I would design differently, but it was also the first time I combined embedded
@@ -36,6 +36,55 @@ This repository is **not** a build guide for a secure product. It is a record of
 
 ---
 
+## 📖 Table of Contents
+
+*(There is toooooo much to scroll here click around instead.)*
+
+- [Overview](#overview)
+- [Background](#background)
+- [Inspiration](#inspiration)
+- [Features](#features)
+- [System Architecture](#system-architecture)
+  - [Data flow, as implemented](#data-flow-as-implemented)
+- [Hardware](#hardware)
+  - [Pin mapping](#pin-mapping)
+- [Software](#software)
+  - [Why three microcontrollers](#why-three-microcontrollers)
+- [Authentication System](#authentication-system)
+  - [Security, honestly](#security-honestly)
+- [Wireless Communication](#wireless-communication)
+  - [Correction: the frequency was 433.0 MHz, not 450 MHz](#correction-the-frequency-was-4330-mhz-not-450-mhz)
+  - [Correction: the −148 dBm figure does not apply](#correction-the-148-dbm-figure-does-not-apply)
+  - [Protocol](#protocol)
+  - [The data structure — and the bug that never went off](#the-data-structure--and-the-bug-that-never-went-off)
+  - [And a second one: no framing](#and-a-second-one-no-framing)
+- [Range: what the report claimed, and what actually happened](#range-what-the-report-claimed-and-what-actually-happened)
+  - [About the test table in the report](#about-the-test-table-in-the-report)
+  - [Range was never the binding constraint](#range-was-never-the-binding-constraint)
+  - [The failure shape is the clue](#the-failure-shape-is-the-clue)
+  - [The other strong candidate: the radio was probably never transmitting 1 W](#the-other-strong-candidate-the-radio-was-probably-never-transmitting-1-w)
+  - [Ranked, then](#ranked-then)
+  - [The distinction I got wrong](#the-distinction-i-got-wrong)
+- [Lock Control](#lock-control)
+  - [Why the base drive could not work](#why-the-base-drive-could-not-work)
+  - [The power supply was wrong too](#the-power-supply-was-wrong-too)
+  - [What the lock actually ran on, in the end](#what-the-lock-actually-ran-on-in-the-end)
+- [Original Workarounds](#original-workarounds)
+  - [LED + photoresistor optocoupler](#led--photoresistor-optocoupler)
+  - [Others](#others)
+- [Power System](#power-system)
+- [Custom PCB](#custom-pcb)
+- [Known Issues and Limitations](#known-issues-and-limitations)
+  - [On the fingerprint sensor "binding itself" to one ESP32](#on-the-fingerprint-sensor-binding-itself-to-one-esp32)
+- [What I Would Do Differently Today](#what-i-would-do-differently-today)
+- [Lessons Learned](#lessons-learned)
+- [Repository Structure](#repository-structure)
+- [How to Reproduce or Experiment with the Project](#how-to-reproduce-or-experiment-with-the-project)
+- [Disclaimer](#disclaimer)
+- [Credits and Inspiration](#credits-and-inspiration)
+- [License](#license)
+
+---
 ## Background
 
 Italian high schools end with the *Esame di Stato*, and technical institutes expect (in 2024) a personal
@@ -66,7 +115,7 @@ large LiPo pack of the kind used in airsoft replicas. My implementation went a d
 almost immediately: ESP32s instead of an arduino nano, EBYTE LoRa modules instead of NRF24, plus
 biometric authentication and a custom PCB.
 
-**What I was actually imagining**
+**What I was actually imagining** (to Make it better 💻🔨)
 
 The honest answer to "why a briefcase" is that I was picturing something out of a spy film: a courier case carrying documents that must not be read,
 which opens only for the right person, reports back the moment it is opened, and whose code changes every single time so that yesterday's code is worth nothing. 
@@ -232,7 +281,7 @@ Full detail in [`docs/HARDWARE.md`](docs/HARDWARE.md); parts list in
 
 ---
 
-## Software
+## Software (Do it faster⚡️)
 
 Full detail in [`docs/SOFTWARE.md`](docs/SOFTWARE.md).
 
@@ -571,7 +620,7 @@ Fitting a 0 Ω base resistor — which I tried — does not solve it either. It 
 ESP32's 40 mA absolute maximum per pin, drags the GPIO output voltage down, and leaves the
 underlying headroom problem exactly where it was.
 
-### The power supply was wrong too
+### The power supply was wrong too 
 
 My current suspicion that the regulator was the problem is **correct, but it is the second
 half of the story, not the whole of it**:
@@ -676,7 +725,7 @@ specified current transfer ratio.
 
 ---
 
-## Power System
+## Power System (Makes us stronger 💪)
 
 | | Briefcase | Transmitter |
 |---|---|---|
@@ -733,7 +782,7 @@ first buzzer, making it awkward to plug in a cable to reprogram the board.
 
 ---
 
-## Known Issues and Limitations
+## Known Issues and Limitations (More than ever (hour after hour) ⏱️)
 
 Full list, with reasoning, in [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md). 
 
@@ -768,7 +817,7 @@ Reasoning and part-selection detail in [`docs/REDESIGN.md`](docs/REDESIGN.md).
 
 ---
 
-## Lessons Learned
+## Lessons Learned (Work is never over 😩🥱)
 
 - **Pay attention to the shape of a failure, not just the fact of it.** A link that degrades is
   a radio problem. A link that drops and stays dropped is a software problem. I spent two years
@@ -901,3 +950,10 @@ decades regardless of what the file says, and the notice does not need updating 
 
 The original school report in `docs/original-report/` is included as a historical document and
 is not covered by the MIT grant.
+
+
+
+---
+
+🥚 If you noticed the easter egg hidden in the titles...
+🤫 Shhh. Keep it secret.
